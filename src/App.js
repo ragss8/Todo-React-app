@@ -15,6 +15,12 @@ function TodoApp(){
     }
   };
 
+  const handleDeleteTodo = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos.splice(index, 1);
+    setTodos(updatedTodos);
+  }
+
   return(
     <div>
       <h1>TodoApp</h1>
@@ -22,7 +28,7 @@ function TodoApp(){
       <button onClick={handelAddTodo}>Add Todo</button>
       <ul>
         {todos.map((todo,index) =>(      //we call the map function to allocate the todos to their respective indexes
-          <li key={index}>{todo}</li>  //li has a key to map the indexs of todos added and adds a todo within
+          <li key={index}>{todo} <button onClick={handleDeleteTodo}>Delete</button></li>  //li has a key to map the indexs of todos added and adds a todo within
         ))}
       </ul>
     </div>
