@@ -1,17 +1,17 @@
 import React,{useState} from "react";
 
 function TodoApp(){
-  const [todos , setTodos] = useState([]);
-  const [inputValue , setInputValue] = useState('');
+  const [todos , setTodos] = useState([]);  //set the todolist and initialize it as empty
+  const [inputValue , setInputValue] = useState(''); //set the inputValue to null
 
   const handleInputChange = (event) =>{
-    setInputValue(event.target.value);
+    setInputValue(event.target.value);   //set the input with the InputValue
   };
 
   const handelAddTodo = () => {
     if(inputValue.trim() !== ''){
-      setTodos([...todos, inputValue]);
-      setInputValue('');
+      setTodos([...todos, inputValue]);  //spread list is used here to expand the todo added to the todos
+      setInputValue(''); //reset the inputValue to null with this function
     }
   };
 
@@ -21,8 +21,8 @@ function TodoApp(){
       <input type="text" value={inputValue} onChange={handleInputChange}/>
       <button onClick={handelAddTodo}>Add Todo</button>
       <ul>
-        {todos.map((todo,index) =>(
-          <li key={index}>{todo}</li>
+        {todos.map((todo,index) =>(      //we call the map function to allocate the todos to their respective indexes
+          <li key={index}>{todo}</li>  //li has a key to map the indexs of todos added and adds a todo within
         ))}
       </ul>
     </div>
