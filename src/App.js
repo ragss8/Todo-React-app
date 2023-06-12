@@ -110,7 +110,7 @@ function TodoApp() {
             ) : (
               // if it's not being edited display the todo text and if it's checked it has "line-through" else "none"
               <span>
-               {index +1}. {todo.text} ({todo.completed ? "completed" : "active"})
+               {index +1}. {todo.text} -{""} [{todo.completed ? "completed" : "active"}]
               </span>
             )}
             {editTodo && editTodo.id === todo.id ? (
