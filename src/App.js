@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import './App.css';
 
 function TodoApp() {
   const [todos, setTodos] = useState([]); // set the todolist and initialize it as empty
@@ -79,17 +80,22 @@ function TodoApp() {
   };
 
   return (
-    <div>
-      <h1>TodoApp</h1>
-      <input type="text" value={inputValue} onChange={handleInputChange} />
+    <div className="body">
+      <div className="main" style={{textAlign:"center"}}>
+      <h1 style={{fontSize:"40px"}}>TodoApp</h1>
+      <input type="text" value={inputValue} onChange={handleInputChange}  style={{textAlign: "center"}}/>
       <button onClick={handleAddTodo}>Add Todo</button>
-      <div>
+      </div>
+      <div className="container">
+      <div className="button">
         <button onClick={() => handleFilterChange("all")}>All</button>
         <button onClick={() => handleFilterChange("completed")}>
           Completed
         </button>
         <button onClick={() => handleFilterChange("active")}>Active</button>
       </div>
+      <div className="listItems" style={{textAlign: "revert-layer"}}>
+        <h2 style={{textAlign:"center"}}>Todo-List</h2>
       <ul>
         {filteredTodos.map((todo , index) => (
           <li key={todo.id}>
@@ -97,6 +103,7 @@ function TodoApp() {
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleToggleTodo(todo.id)}
+              className="checkbox-label"
             />
             {editTodo && editTodo.id === todo.id ? (  //it checks if the editTodo.id is really equal to the matching todo.id
               // If the todo is being edited, display an input field for editing the text
@@ -110,7 +117,7 @@ function TodoApp() {
             ) : (
               // if it's not being edited display the todo text and if it's checked it has "line-through" else "none"
               <span>
-               {index +1}. {todo.text} -{""} [{todo.completed ? "completed" : "active"}]
+               {index +1}. <b>{todo.text}</b> - {""} [{todo.completed ? "completed" : "active"}]
               </span>
             )}
             {editTodo && editTodo.id === todo.id ? (
@@ -124,6 +131,8 @@ function TodoApp() {
           </li>
         ))}
       </ul>
+      </div>
+      </div>
     </div>
   );
 }
