@@ -1,38 +1,107 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.body {
+  background: linear-gradient(to left, #8aec5c, #02f7fb);
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px;
+  margin: 0;
   min-height: 100vh;
+}
+
+.main {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  width: 200px;
+  padding: 5px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  border: #333 2px solid;
+}
+
+button {
+  padding: 5px 10px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: auto;
+  width: 450px;
+  background-color: #4116675a;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.button {
+  margin-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button button {
+  margin-right: 5px;
 }
+
+.listItems {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.listItems li {
+  margin-bottom: 5px;
+}
+
+.listItems li:hover {
+  transform: scale(1.1); 
+  transition: transform 0.3s ease-in-out; 
+  background-color: #4a1e1e57;
+}
+
+
+.listItems input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.listItems span {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.listItems input[type="text"] {
+  width: 150px;
+  padding: 5px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.listItems button {
+  margin-right: 5px;
+  background-color: #28a745;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.listItems button:last-child {
+  background-color: #dc3545;
+}
+
+
