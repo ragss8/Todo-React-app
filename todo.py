@@ -2,7 +2,6 @@ from fastapi import FastAPI,HTTPException, Body
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
-from fastapi.responses import JSONResponse
 from bson import ObjectId
 from typing import List
 
@@ -18,14 +17,30 @@ user_collection = db.todos
 class TodoItem(BaseModel):
     item_text: str
     completed: bool
-
+   
 @app.post("/todos")
 async def create_todo(todo: TodoItem):
     new_todo = dict(todo)
     inserted_id = user_collection.insert_one(new_todo).inserted_id
     new_todo["_id"] = str(inserted_id)
-    return {"todo_id": str(inserted_id), "item_text": new_todo["item_text"], "message": "Todo created successfully"}
+    return {"todo_id": str(inserted_id), "item_text": new_todo["item_text"],"completed": new_todo["completed"], "message": "Todo created successfully"}
 
+@app.get("/todos/{todo_id}", response_model=TodoItem)
+async def get_todo(todo_id: str):
+    try:
+        todo_object_id = ObjectId(todo_id)
+        todo_item = user_collection.find_one({"_id": todo_object_id})
+
+        if todo_item:
+            return {
+                "_id": str(todo_item["_id"]),
+                "item_text": todo_item["item_text"],
+                "completed": todo_item["completed"],
+            }
+        else:
+            return {"message": "Todo not found"}
+    except Exception as e:
+        return {"message": f"Error retrieving todo: {str(e)}"}
 
 @app.delete("/todos/{todo_id}")
 async def delete_todo(todo_id: str):
@@ -49,24 +64,9 @@ async def delete_todo(todo_id: str):
         else:
             return {"message": "Todo not found"}
     except Exception as e:
-        return {"message": f"Error deleting todo: {str(e)}"}
-    
-""" @app.get("/todos/{todo_id}")
-async def get_todo_by_id(todo_id: str):
-    todo = user_collection.find_one({"_id": ObjectId(todo_id)})
-    if todo:
-        todo_item = {
-            "todo_id": str(todo["_id"]),
-            "item_text": todo["item_text"],
-            "completed": todo["completed"]
-        }
-        return todo_item
-    else:
-        raise HTTPException(status_code=404, detail="Todo not found")  """   
-
-
+        return {"message": f"Error deleting todo: {str(e)}"} 
 # Endpoint to edit a todo item
-@app.get("/todos/{todo_id}/edit")
+""" @app.get("/todos/{todo_id}/edit")
 async def edit_todo(todo_id: str):
     try:
         # Convert the provided string to a valid ObjectId
@@ -83,9 +83,7 @@ async def edit_todo(todo_id: str):
         
         return {"todo": todo_dict}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
+        raise HTTPException(status_code=500, detail=str(e)) """
 
 @app.put("/todos/{todo_id}")
 async def update_todo_item(todo_id: str, todo: TodoItem):
@@ -100,7 +98,6 @@ async def update_todo_item(todo_id: str, todo: TodoItem):
         return {"message": "Todo updated successfully"}
     else:
         raise HTTPException(status_code=404, detail="Todo not found or update failed")
-
 
 # Endpoint to toggle the completion status of a todo item
 @app.put("/todos/{todo_id}/toggle")
@@ -141,23 +138,14 @@ def get_filtered_todos(filter_type: str):
     todos = user_collection.find(filter_query)
     return list(todos)
 
-""" @app.get("/todos")
-def get_filtered_todos(filter_type: str):
-    filtered_todos = []
 
-    if filter_type == "all":
-        filtered_todos = todos
-    elif filter_type == "completed":
-        filtered_todos = [todo for todo in todos if todo["completed"]]
-    elif filter_type == "active":
-        filtered_todos = [todo for todo in todos if not todo["completed"]]
-
-    return filtered_todos """
-
+origins = [
+    "http://localhost:3001",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
